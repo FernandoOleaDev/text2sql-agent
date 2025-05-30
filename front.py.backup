@@ -14,21 +14,11 @@ async def on_chat_start():
     chatbot = Text2SQL()
     logger.info("Nueva conversación iniciada - Chatbot reiniciado")
     
-    # Mensaje de bienvenida
-    welcome_message = """¡Hola! 👋 Soy tu asistente para la base de datos de **Popau Elements**.
-
-🎯 **Mi función:** Convertir tus preguntas en lenguaje natural a consultas SQL y ejecutarlas en nuestra base de datos.
-
-📊 **Qué puedo hacer:**
-- Responder preguntas sobre datos.
-- Generar reportes y estadísticas
-- Buscar información específica
-- Crear consultas SQL precisas
-
-¡Pregúntame lo que necesites saber de la base de datos! 🚀"""
-
-    await cl.Message(content=welcome_message).send()
-    
+    # Mensaje de bienvenida opcional
+    await cl.Message(
+        content="¡Hola! Soy tu asistente SQL para Popau Elements. Puedes preguntarme sobre los datos de la empresa y te ayudaré a generar consultas para obtener la información que necesites.",
+        author="Asistente Popau"
+    ).send()
 
 @cl.on_message
 async def on_message(message: cl.Message):
