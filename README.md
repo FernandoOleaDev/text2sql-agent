@@ -145,3 +145,210 @@ Este proyecto necesita de una base de datos SQL (MySQL, PostGres, SQLServer). La
     ```bash
     chainlit run front.py -w --port 8001
     ```
+
+## Configuración de la Base de Datos Sakila
+
+### Iniciar MySQL
+
+Puedes iniciar MySQL de varias formas dependiendo de tu configuración:
+
+**Opción 1: Inicio manual (sin auto-inicio al reiniciar)**
+```bash
+sudo /usr/local/mysql/support-files/mysql.server start
+```
+
+**Opción 2: Con Homebrew (configurará auto-inicio)**
+```bash
+brew services start mysql
+```
+
+**Opción 3: Otras alternativas**
+```bash
+mysql.server start
+```
+
+### Cargar la Base de Datos Sakila
+
+Una vez que MySQL esté funcionando, puedes cargar la base de datos Sakila usando cualquiera de estos métodos:
+
+**Método 1: Conexión directa y carga (Recomendado)**
+```bash
+mysql -u root
+```
+
+Dentro del cliente MySQL:
+```sql
+SOURCE sakila_db/sakila.sql;
+```
+
+Para salir:
+```sql
+exit;
+```
+
+**Método 2: Carga directa desde terminal**
+```bash
+mysql -u root < sakila_db/sakila.sql
+```
+
+**Método 3: Crear base de datos específica y cargar**
+```bash
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS sakila;"
+mysql -u root sakila < sakila_db/sakila.sql
+```
+
+### Verificar la Instalación
+
+Para confirmar que la base de datos se cargó correctamente:
+
+```bash
+mysql -u root -e "USE sakila; SHOW TABLES;"
+```
+
+```bash
+mysql -u root -e "USE sakila; SELECT COUNT(*) FROM actor;"
+```
+
+### Detener MySQL
+
+Para detener MySQL cuando termines de usar la aplicación:
+
+```bash
+sudo /usr/local/mysql/support-files/mysql.server stop
+```
+
+O si usaste Homebrew:
+```bash
+brew services stop mysql
+```
+
+### Comandos de Verificación
+
+Para verificar que todo está funcionando correctamente:
+
+```bash
+# Verificar estado de MySQL
+brew services list | grep mysql
+
+# Verificar puerto MySQL (3306)
+lsof -i :3306
+
+# Verificar conexión a la base de datos
+mysql -u root -e "SHOW DATABASES;"
+```
+
+## Ejecución de la Aplicación
+
+### Inicio Completo del Sistema
+
+Para ejecutar la aplicación text2sql, sigue estos pasos en orden:
+
+#### 1. Iniciar MySQL
+```bash
+brew services start mysql
+```
+
+#### 2. Verificar que MySQL está funcionando
+```bash
+mysql -u root -e "USE sakila; SHOW TABLES;"
+```
+
+#### 3. Navegar al directorio del proyecto
+```bash
+cd "/Users/fernandoolea/Dev/Github Repos/text2sql-agent"
+```
+
+#### 4. Activar el entorno virtual
+```bash
+source .venv/bin/activate
+```
+
+#### 5. Ejecutar Chainlit
+```bash
+chainlit run front.py
+```
+
+#### 6. Acceder a la aplicación
+La aplicación se abrirá automáticamente en tu navegador en:
+- **URL:** `http://localhost:8000`
+- **Interfaz:** Chat web interactivo
+
+### Verificación del Sistema
+
+Para confirmar que todo está funcionando:
+
+```bash
+# Verificar MySQL
+brew services list | grep mysql
+lsof -i :3306
+
+# Verificar Chainlit
+lsof -i :8000
+ps aux | grep chainlit
+```
+
+### Cierre Completo del Sistema
+
+Para cerrar todos los servicios correctamente:
+
+#### 1. Detener Chainlit
+En la terminal donde está ejecutándose Chainlit, presiona:
+```
+Ctrl + C
+```
+
+#### 2. Detener MySQL
+```bash
+brew services stop mysql
+```
+
+#### 3. Desactivar entorno virtual (opcional)
+```bash
+deactivate
+```
+
+### Verificación de Cierre
+
+Para confirmar que todo se ha cerrado:
+
+```bash
+# Verificar que MySQL se detuvo
+brew services list | grep mysql
+# Debe mostrar "none"
+
+# Verificar que no hay procesos corriendo
+lsof -i :8000
+lsof -i :3306
+# No debe mostrar ningún proceso
+```
+
+### Solución de Problemas
+
+#### Error de conexión a MySQL
+```bash
+# Verificar que sakila existe
+mysql -u root -e "USE sakila; SHOW TABLES;"
+
+# Si no existe, cargar la base de datos
+mysql -u root
+SOURCE sakila_db/sakila.sql;
+exit;
+```
+
+#### Error de variables de entorno
+```bash
+# Verificar configuración
+cat .env
+```
+
+#### Error de dependencias
+```bash
+# Reinstalar dependencias
+pip install -r requirements.txt
+```
+
+#### Puerto ocupado
+```bash
+# Si el puerto 8000 está ocupado, usar otro puerto
+chainlit run front.py --port 8001
+```
