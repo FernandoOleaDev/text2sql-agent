@@ -1,0 +1,44 @@
+# Archivos de entorno
+# .env  # Comentado para permitir copia en Docker
+.env.local
+.env.*.local
+
+# Entornos virtuales
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentación
+README.md
+*.md
+
+# Logs
+logs/
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Notebooks (opcional, ya están en el contenedor)
+notebooks/
+
+# Imágenes (opcional)
+images/

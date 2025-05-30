@@ -1,0 +1,14 @@
+services:
+  # Aplicación Chainlit
+  chainlit-app:
+    build: .
+    container_name: text2sql-chainlit
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - URI=${URI}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./logs:/app/logs  # Para persistir logs si los tienes
+      - ./.env:/app/.env:ro  # Montar archivo .env para variables adicionales
